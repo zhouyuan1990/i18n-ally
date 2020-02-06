@@ -1,6 +1,7 @@
-import { Disposable, EventEmitter } from 'vscode'
+import { Disposable, EventEmitter, CompletionItemKind } from 'vscode'
 import _, { uniq } from 'lodash'
-import { LocaleTree, LocaleNode, LocaleRecord, FlattenLocaleTree } from '../Nodes'
+import pinyin from 'pinyin'
+import { LocaleTree, LocaleNode, LocaleRecord, FlattenLocaleTree, LocaleValueTree } from '../Nodes'
 import { Coverage, FileInfo, PendingWrite, NodeOptions, RewriteKeySource, RewriteKeyContext, DataProcessContext } from '../types'
 import { Config, Global } from '..'
 
@@ -9,6 +10,7 @@ export abstract class Loader extends Disposable {
   protected _onDidChange = new EventEmitter<string>()
   readonly onDidChange = this._onDidChange.event
 
+  protected _localeValueTree: LocaleValueTree = {}
   protected _flattenLocaleTree: FlattenLocaleTree = {}
   protected _localeTree: LocaleTree = new LocaleTree({ keypath: '' })
 
@@ -28,6 +30,10 @@ export abstract class Loader extends Disposable {
 
   get flattenLocaleTree () {
     return this._flattenLocaleTree
+  }
+
+  get localeValueTree () {
+    return this._localeValueTree
   }
 
   get files (): FileInfo[] {
@@ -63,6 +69,51 @@ export abstract class Loader extends Disposable {
     }
   }
 
+  protected updateLocaleValueTree (locale?: string, deleteFlag?: boolean) {
+    if (deleteFlag) {
+      locale && delete this._localeValueTree[locale]
+    }
+    else {
+      if (locale) {
+        this._localeValueTree[locale] = []
+        for (const [key, item] of Object.entries(this.flattenLocaleTree)) {
+          const data = item.locales[locale]
+          if (data)
+            this.setToLocaleValueTree(key, locale, data.value)
+        }
+      }
+      else {
+        this._localeValueTree = {}
+        for (const [key, item] of Object.entries(this.flattenLocaleTree)) {
+          for (const [locale, data] of Object.entries(item.locales))
+            this.setToLocaleValueTree(key, locale, data.value)
+        }
+      }
+    }
+  }
+
+  private setToLocaleValueTree (key: string, locale: string, value: string) {
+    const isChinese = locale.toLowerCase().includes('zh')
+    if (locale) {
+      const filterText = isChinese ? pinyin(value, {
+        style: pinyin.STYLE_NORMAL,
+        heteronym: true,
+        segment: true,
+      }).join('') : value
+      const item = {
+        label: value,
+        detail: key,
+        insertText: key,
+        filterText,
+        kind: CompletionItemKind.Text,
+      }
+      if (!this._localeValueTree[locale])
+        this._localeValueTree[locale] = []
+
+      this._localeValueTree[locale].push(item)
+    }
+  }
+
   protected updateTree (tree: LocaleTree | undefined, data: any, keypath: string, keyname: string, options: NodeOptions, isCollection = false) {
     tree = tree || new LocaleTree({
       keypath,
@@ -71,6 +122,7 @@ export abstract class Loader extends Disposable {
       features: options.features,
       meta: options.meta,
     })
+
     tree.values[options.locale] = data
     for (const [key, value] of Object.entries(data)) {
       const newKeyPath = keypath

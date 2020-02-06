@@ -5,7 +5,7 @@ import { Translator } from '../Translator'
 import { Log } from '../../utils'
 import { Config } from '../Config'
 import { FulfillAllMissingKeys } from '../../commands/manipulations'
-import { LocaleTree, LocaleNode, FlattenLocaleTree } from '../Nodes'
+import { LocaleTree, LocaleNode, FlattenLocaleTree, LocaleValueTree } from '../Nodes'
 import { Loader } from './Loader'
 
 export class ComposedLoader extends Loader {
@@ -19,6 +19,7 @@ export class ComposedLoader extends Loader {
   _loaders: Loader[] = []
   _watchers: Disposable[] = []
   _isFlattenLocaleTreeDirty = true
+  _isLocaleValueTreeDirty = true
 
   get files () {
     return _.flatten(this._loaders.map(l => l.files))
@@ -34,6 +35,7 @@ export class ComposedLoader extends Loader {
     this._watchers = this.loaders.filter(i => i).map(loader =>
       loader.onDidChange((e) => {
         this._isFlattenLocaleTreeDirty = true
+        this._isLocaleValueTreeDirty = true
         this._onDidChange.fire(`${e}+${this.name}`)
       }),
     )
@@ -65,6 +67,19 @@ export class ComposedLoader extends Loader {
     }
     this._isFlattenLocaleTreeDirty = false
     return this._flattenLocaleTree
+  }
+
+  get localeValueTree (): LocaleValueTree {
+    if (!this._isLocaleValueTreeDirty)
+      return this._localeValueTree
+
+    this._localeValueTree = {}
+    for (const loader of this._loaders) {
+      const loaderChildren = loader.localeValueTree
+      Object.assign(this._localeValueTree, loaderChildren)
+    }
+    this._isLocaleValueTreeDirty = false
+    return this._localeValueTree
   }
 
   get locales (): string[] {

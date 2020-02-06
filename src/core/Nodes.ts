@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
+import { CompletionItem } from 'vscode'
 import { getKeyname, Log } from '../utils'
 import { linkKeyMatcher, linkKeyPrefixMatcher, linkedKeyModifiers } from '../meta'
 import { Global } from './Global'
@@ -146,5 +147,18 @@ export interface ILocaleTree extends INode {
 }
 
 export interface FlattenLocaleTree extends Record<string, LocaleNode> {}
+
+export class LocaleValueCompletionItem extends CompletionItem {
+  constructor (data: any) {
+    super(data)
+    this.label = data.value
+    this.detail = data.detail
+    this.insertText = data.insertText
+    this.filterText = data.filterText
+    this.kind = data.kind
+  }
+}
+
+export interface LocaleValueTree extends Record<string, Array<CompletionItem>> {}
 
 export type Node = LocaleNode | LocaleRecord | LocaleTree

@@ -1,5 +1,5 @@
-import { CompletionItemProvider, TextDocument, Position, CompletionItem, CompletionItemKind, ExtensionContext, languages } from 'vscode'
-import { Global, KeyDetector, Loader, CurrentFile, LocaleTree, LocaleNode } from '../core'
+import { CompletionItemProvider, TextDocument, Position, CompletionItem, CompletionItemKind, ExtensionContext, languages, CompletionList } from 'vscode'
+import { Global, KeyDetector, Loader, CurrentFile, LocaleTree, LocaleNode, Config } from '../core'
 import { ExtensionModule } from '../modules'
 
 class CompletionProvider implements CompletionItemProvider {
@@ -11,10 +11,11 @@ class CompletionProvider implements CompletionItemProvider {
       return
 
     const loader: Loader = CurrentFile.loader
+
     const key = KeyDetector.getKey(document, position, true)
 
-    if (key == null)
-      return
+    if (key === undefined)
+      return new CompletionList(loader.localeValueTree[Config.displayLanguage])
 
     let parent = ''
 

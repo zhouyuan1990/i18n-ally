@@ -329,10 +329,11 @@ export class LocaleLoader extends Loader {
         return
       }
 
+      const basename = path.basename(filepath).split('.')[0]
       switch (type) {
         case 'del':
           delete this._files[filepath]
-          this.update()
+          this.update(basename, false)
           break
 
         case 'create':
@@ -341,7 +342,7 @@ export class LocaleLoader extends Loader {
             await this.loadFile(filepath, 'dir', rootPath)
           else
             await this.loadFile(filepath)
-          this.update()
+          this.update(basename)
           break
       }
 
@@ -361,12 +362,14 @@ export class LocaleLoader extends Loader {
     const tree = new LocaleTree({ keypath: '' })
     for (const file of Object.values(this._files))
       this.updateTree(tree, file.value, '', '', file)
+
     this._localeTree = tree
   }
 
-  private update () {
+  private update (locale?: string, deleteFlag?: boolean) {
     try {
       this.updateLocalesTree()
+      this.updateLocaleValueTree(locale, deleteFlag)
       this._onDidChange.fire(this.name)
     }
     catch (e) {
