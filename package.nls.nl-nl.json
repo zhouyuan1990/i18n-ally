@@ -42,7 +42,7 @@
   "config.sort_keys": "Sorteren van (json/yaml) bij opslaan",
   "config.source_language": "Bron taal voor automatisch vertalen",
   "config.tab_style": "Tab style voor locale bestanden",
-  "extname": "i18n Ally",
+  "extname": "i18n Ally Pinyin",
   "feedback.document": "Lees de documentatie",
   "feedback.github": "Ster op Github",
   "feedback.report_issues": "Rapporteer problemen",

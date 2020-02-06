@@ -1,9 +1,9 @@
 {
-  "name": "i18n-ally",
+  "name": "i18n-ally-pinyin",
   "displayName": "%extname%",
-  "description": "🌍 All in one i18n extension for VSCode",
-  "version": "1.11.5",
-  "publisher": "antfu",
+  "description": "add pinyin support based on i18n-ally",
+  "version": "1.0.0",
+  "publisher": "arkipedia",
   "engines": {
     "vscode": "^1.40.0"
   },
@@ -38,10 +38,10 @@
   "icon": "res/logo.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antfu/i18n-ally"
+    "url": "https://github.com/zhouyuan1990/i18n-ally"
   },
-  "homepage": "https://github.com/antfu/i18n-ally",
-  "bugs": "https://github.com/antfu/i18n-ally/issues",
+  "homepage": "https://github.com/zhouyuan1990/i18n-ally",
+  "bugs": "https://github.com/zhouyuan1990/i18n-ally/issues",
   "main": "./dist/extension",
   "contributes": {
     "commands": [

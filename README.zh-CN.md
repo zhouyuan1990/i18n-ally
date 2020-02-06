@@ -226,3 +226,5 @@ Vue SFC 的支持来自于 vue-i18n 的作者 [kazupon](https://github.com/kazup
 ## 📄 License
 
 [MIT License](https://github.com/antfu/i18n-ally/blob/master/LICENSE) © 2019-2020 [Anthony Fu](https://github.com/antfu)
+在i18n Ally的基础上增加了拼音支持
+https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally

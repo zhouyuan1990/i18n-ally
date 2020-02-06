@@ -1,4 +1,6 @@
 {
+  "apple": "苹果",
+  "car": "汽车",
   "nested": {
     "greeting": "早上好",
     "hello": "再次问好"

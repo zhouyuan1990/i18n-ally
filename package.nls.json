@@ -42,7 +42,7 @@
   "config.sort_keys": "Save with sorted json/yaml",
   "config.source_language": "Source language for machine translation",
   "config.tab_style": "Tab style for locale files",
-  "extname": "i18n Ally",
+  "extname": "i18n Ally Pinyin",
   "feedback.document": "Read Documentation",
   "feedback.github": "Star on Github",
   "feedback.report_issues": "Report Issues",

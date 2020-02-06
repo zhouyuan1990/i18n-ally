@@ -42,7 +42,7 @@
   "config.sort_keys": "儲存已排序的JSON/YAML",
   "config.source_language": "翻譯源語言",
   "config.tab_style": "文案文件的縮進樣式",
-  "extname": "Vue i18n 小助手",
+  "extname": "Vue i18n Pinyin 小助手",
   "feedback.document": "查看文檔",
   "feedback.github": "Star on Github",
   "feedback.report_issues": "報告問題",

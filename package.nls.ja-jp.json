@@ -42,7 +42,7 @@
   "config.sort_keys": "ソート済みjson/yamlで保存する",
   "config.source_language": "機械翻訳のための元言語",
   "config.tab_style": "",
-  "extname": "i18n Ally",
+  "extname": "i18n Ally Pinyin",
   "feedback.document": "Documentationを読む",
   "feedback.github": "Star on Github",
   "feedback.report_issues": "Issuesを報告する",
