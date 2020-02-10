@@ -29,7 +29,7 @@ const annotation: ExtensionModule = (ctx) => {
     const underlines: DecorationOptions[] = []
     const maxLength = Config.annotationMaxLength
 
-    const keys = KeyDetector.getKeys(document)
+    const keys = KeyDetector.getKeysWithPrefix(document)
     // get all keys of current file
     keys.forEach(({ key, start, end }) => {
       underlines.push({
@@ -42,6 +42,7 @@ const annotation: ExtensionModule = (ctx) => {
       let missing = false
 
       let text = loader.getValueByKey(key, undefined, maxLength)
+
       // fallback to source
       if (!text && Config.displayLanguage !== Config.sourceLanguage) {
         text = loader.getValueByKey(key, Config.sourceLanguage, maxLength)
@@ -58,7 +59,7 @@ const annotation: ExtensionModule = (ctx) => {
       annotations.push({
         range: new Range(
           document.positionAt(start - 1),
-          document.positionAt(end + 1),
+          document.positionAt(end),
         ),
         renderOptions: {
           after: {

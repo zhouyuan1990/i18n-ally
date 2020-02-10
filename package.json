@@ -2,7 +2,7 @@
   "name": "i18n-ally-pinyin",
   "displayName": "%extname%",
   "description": "add pinyin support based on i18n-ally",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "arkipedia",
   "engines": {
     "vscode": "^1.40.0"
@@ -448,6 +448,7 @@
             "ember",
             "chrome-ext",
             "ruby-rails",
+            "lark",
             "custom"
           ],
           "items": {
@@ -464,6 +465,7 @@
               "ember",
               "chrome-ext",
               "ruby-rails",
+              "lark",
               "custom"
             ]
           },

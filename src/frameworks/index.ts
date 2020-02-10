@@ -16,6 +16,7 @@ import CustomFramework from './custom'
 import PhpJoomlaFramework from './php-joomla'
 import ChromeExtensionFramework from './chrome-ext'
 import RubyRailsFramework from './ruby-rails'
+import LarkFramework from './lark'
 
 export type PackageDependencies = Partial<Record<PackageFileType, string[]>>
 
@@ -33,6 +34,7 @@ export const frameworks: Framework[] = [
   new ChromeExtensionFramework(),
   new RubyRailsFramework(),
   new VueSFCFramework(),
+  new LarkFramework(),
 ]
 
 export function getFramework (id: string): Framework | undefined {

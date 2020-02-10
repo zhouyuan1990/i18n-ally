@@ -25,7 +25,7 @@ export class ProblemProvider {
       const problems: Diagnostic[] = []
       this.collection.delete(document.uri)
 
-      const keys = KeyDetector.getKeys(document)
+      const keys = KeyDetector.getKeysWithPrefix(document)
       // get all keys of current file
       keys.forEach(({ key, start, end }) => {
         const has_translation = !!loader.getValueByKey(key, locale)

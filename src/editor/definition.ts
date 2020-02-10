@@ -4,9 +4,13 @@ import { Global, KeyDetector, Config, CurrentFile } from '../core'
 
 class DefinitionProvider {
   async provideDefinition (document: TextDocument, position: Position, token: CancellationToken): Promise<Definition | DefinitionLink[]> {
-    const key = KeyDetector.getKey(document, position)
+    let key = KeyDetector.getKey(document, position)
+
     if (!key)
       return []
+
+    const prefix = KeyDetector.getKeyPrefix(document)
+    key = prefix ? `${prefix}.${key}` : key
 
     const filepath = CurrentFile.loader.getFilepathByKey(key)
     if (!filepath)

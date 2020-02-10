@@ -97,8 +97,8 @@ export abstract class Loader extends Disposable {
     if (locale) {
       const filterText = isChinese ? pinyin(value, {
         style: pinyin.STYLE_NORMAL,
-        heteronym: true,
-        segment: true,
+        // heteronym: true,
+        // segment: true,
       }).join('') : value
       const item = {
         label: value,

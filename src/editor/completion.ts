@@ -14,8 +14,24 @@ class CompletionProvider implements CompletionItemProvider {
 
     const key = KeyDetector.getKey(document, position, true)
 
-    if (key === undefined)
-      return new CompletionList(loader.localeValueTree[Config.displayLanguage])
+    if (key === undefined) {
+      const list = loader.localeValueTree[Config.displayLanguage]
+      const prefix = KeyDetector.getKeyPrefix(document)
+      if (!prefix) {
+        return new CompletionList(list)
+      }
+      else {
+        const matchPrefixList = list
+          .filter(item => item.detail?.indexOf(prefix) === 0)
+          .map((item) => {
+            return {
+              ...item,
+              insertText: item.insertText ? String(item.insertText).substring(prefix.length + 1) : '',
+            }
+          })
+        return new CompletionList(matchPrefixList)
+      }
+    }
 
     let parent = ''
 

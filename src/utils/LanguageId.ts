@@ -14,6 +14,7 @@ export const LanguageIdExtMap = {
   ruby: 'rb',
   erb: 'erb',
   haml: 'haml',
+  xml: 'xml',
 }
 
 export type LanguageId = keyof typeof LanguageIdExtMap

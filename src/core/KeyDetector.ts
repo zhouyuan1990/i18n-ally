@@ -72,4 +72,27 @@ export class KeyDetector {
 
     return regexFindKeys(text, regs, dotEnding, rewriteContext)
   }
+
+  static getKeysWithPrefix (document: TextDocument | string, regs?: RegExp[], dotEnding?: boolean): KeyInDocument[] {
+    const prefix = KeyDetector.getKeyPrefix(document)
+    const list = KeyDetector.getKeys(document, regs, dotEnding)
+    if (prefix) {
+      return list.map((item) => {
+        return {
+          ...item,
+          key: `${prefix}.${item.key}`,
+        }
+      })
+    }
+    else {
+      return list
+    }
+  }
+
+  static getKeyPrefix (document: TextDocument | string) {
+    const text = typeof document !== 'string' ? document.getText() : document
+    const reg = /i18n-ally-prefix ([\w\d.-]*)/gm
+    const result = reg.exec(text)
+    return result ? result[1] : ''
+  }
 }
